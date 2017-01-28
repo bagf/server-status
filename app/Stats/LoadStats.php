@@ -63,22 +63,25 @@ class LoadStats implements HasStatData
     {
         $output = exec("uptime");
         
-        $pos = strpos(strtolower($output), "load averages:");
-        
-        if ($pos === false) {
-            return ;
+        // OS X / Unix
+        $loadString = $this->startFrom($output, 'load averages:');
+        if (is_null($loadString)) {
+            
+            // Ubuntu / Linux
+            $loadString = $this->startFrom($output, "load average:");
+            if (is_null($loadString)) {
+                return ;
+            }
         }
         
-        $output = trim(substr($output, $pos+14));
-        
-        $exp = explode(" ", $output);
-        if (count($exp) > 3) {
+        $exp = explode(" ", str_replace(',', '', $loadString));
+        if (count($exp) < 3) {
             return ;
         } 
         
-        $this->minuteAvg = floatval(trim($exp[0].","));
+        $this->minuteAvg = floatval(trim($exp[0]));
         $this->fiveMinuteAvg = floatval(trim($exp[1]));
-        $this->fifteenMinuteAvg = floatval(trim($exp[1]));
+        $this->fifteenMinuteAvg = floatval(trim($exp[2]));
     }
     
     private function getCachedHistory()
@@ -93,5 +96,18 @@ class LoadStats implements HasStatData
     private function setCachedHistory($history)
     {
         Cache::forever(__CLASS__, $history);
+    }
+    
+    private function startFrom($string, $start)
+    {
+        $lowercase = strtolower($string);
+        
+        $pos = strpos($lowercase, $start);
+        
+        if ($pos === false) {
+            return ;
+        }
+        
+        return trim(substr($lowercase, $pos+strlen($start)));
     }
 }
