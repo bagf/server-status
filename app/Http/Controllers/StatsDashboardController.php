@@ -17,6 +17,10 @@ class StatsDashboardController extends Controller
      */
     public function index()
     {
-        dd(Cache::get(__CLASS__));
+        if (!Cache::has(__CLASS__)) {
+            abort(404, 'No stats found run php artisan update:stats to collect some data');
+        }
+        
+        return view('stats-dashboard', ['data' => Cache::get(__CLASS__)]);
     }
 }
