@@ -32,7 +32,7 @@ class LoadStats implements HasStatData
         $historySize = count($history)-1;
         
         $avgArray = [
-            ['Time', 'Load Status',]
+            ['Time', 'Load Average (15m)',]
         ];
         $avg = 0;
         $i = 1;

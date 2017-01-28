@@ -15,7 +15,10 @@ class PidStatus implements HasStatData
     {
         $this->pidFile = $pidFile;
         $this->name = $name;
-        $this->cache = __CLASS__.md5($pidFile);
+        
+        $cache = (is_numeric($pidFile)?$name:$pidFile);
+        
+        $this->cache = __CLASS__.md5($cache);
     }
 
     public function getStatData()
@@ -66,7 +69,7 @@ class PidStatus implements HasStatData
         
         return [
             'name' => $this->name,
-            'status' => $active?'Up':'Down',
+            'isup' => $active,
             'history' => $array,
         ];
     }
