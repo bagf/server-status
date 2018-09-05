@@ -80,7 +80,7 @@ class PidStatus implements HasStatData
             $pid = $this->pidFile;
         } else {
             if (!is_readable($this->pidFile)) {
-                return ;
+                return file_exists($this->pidFile);
             }
 
             $pid = intval(file_get_contents($this->pidFile));
