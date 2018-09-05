@@ -20,4 +20,8 @@ return [
         'pid' => env('MYSQL_PID', '/var/run/mysqld/mysqld.pid'),
         'name' => 'MYSQL',
     ],
+    'php' => [
+        'pid' => env('PHP_PID', '/var/run/php/php7.0-fpm.pid'),
+        'name' => 'PHP',
+    ]
 ];
