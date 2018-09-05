@@ -104,6 +104,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <a style="text-align: center; margin: 10px;" href="https://github.com/bagf/server-status"><span class="glyphicon glyphicon-console"></span> Source Code</a>
                 </div>
             </div>
         </div>
